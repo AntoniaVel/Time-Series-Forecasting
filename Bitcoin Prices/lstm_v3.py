@@ -12,10 +12,6 @@ from sklearn.metrics import r2_score
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import median_absolute_error
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import precision_score
-from sklearn.metrics import recall_score
-from sklearn.metrics import f1_score
 
 from keras.models import load_model
 from keras.models import Sequential
@@ -119,21 +115,6 @@ t_labels = np.array(ty)
 #Prediction
 pred = loaded_model.predict(t_features, verbose = 0)
 
-#Used for Metrics' Calculations
-ac = []
-a_pred = []
-
-for i in range(len(pred)-1):
-        if (pred[i] > pred[i+1] and t_labels[i] > t_labels[i+1]) or (pred[i] < pred[i+1] and t_labels[i] < t_labels[i+1])  :
-            #rise/fall predicted correctly
-            a_pred.append(1)
-        else:
-            #rise/fall not predicted correctly
-            a_pred.append(0)
-        
-for i in range(len(a_pred)):
-        ac.append(1)
-
 #Plot Results
 rcParams['figure.figsize'] = 100, 72
 plt.legend(['Actual Prices', 'Predicted Prices'])
@@ -148,7 +129,3 @@ print('R-Squared: %f'%(r2_score(t_labels, pred)))
 print ('RMSE: %f'%(sqrt(mean_squared_error(t_labels, pred))))
 print('MAE: %f'%(mean_absolute_error(t_labels, pred)))
 print('medAE: %f'%(median_absolute_error(t_labels, pred)))
-print('Accuracy: %.2f'%(accuracy_score(ac, a_pred, normalize = True)))
-print('Precision: %f'%(precision_score(ac, a_pred, average = 'macro')))
-print('Recall: %f'%(recall_score(ac, a_pred, average = 'macro')))
-print('F1: %f'%(f1_score(ac, a_pred, average = 'macro')))
